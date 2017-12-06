@@ -1,3 +1,5 @@
+'use strict';
+
 const Plugin = require('broccoli-plugin');
 const fs = require('fs');
 const path = require('path');
@@ -23,8 +25,6 @@ module.exports = class ModuleUnificationReexporter extends Plugin {
     let extension = path.extname(inputPath);
     let importPath = inputPath.slice(0, -extension.length);
     let outputPath = path.join(this.outputPath, relativeOutputPath);
-
-
 
     try {
       fs.writeFileSync(outputPath, `export { default } from '${this.namespace}/${importPath}';`, 'utf-8');

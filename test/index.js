@@ -1,3 +1,5 @@
+'use strict';
+
 const helper = require('broccoli-test-helper');
 const co = require('co');
 const expect = require('chai').expect;
