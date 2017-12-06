@@ -1,6 +1,6 @@
 {
   "name": "broccoli-module-unification-reexporter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Broccoli plugin to reexport components etc. in the `app/` namespace for legacy ember-cli apps.",
   "main": "index.js",
   "scripts": {
