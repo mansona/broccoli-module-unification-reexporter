@@ -44,30 +44,26 @@ describe('broccoli-module-unification-reexporter', function() {
   }
 
   testExpectation(
-    'should handle mixed template + JS components',
-    {
-      src: {
-        ui: {
-          components: {
-            'main': {
-              'template.hbs': '{{#if true}} yay {{/if}}',
-              'component.js': 'export default Ember.Component'
-            },
-            'foo-bar-baz': {
-              'template.hbs': '{{#if true}} yay {{/if}}',
-              'component.js': 'export default Ember.Component'
-            },
-            'other-derp': {
-              'component.js': 'export default Ember.Component'
-            },
-            'lolerskates-here': {
-              'template.hbs': '{{#if true}} lol {{/if}}'
-            }
+    'should handle mixed template + JS components', {
+      ui: {
+        components: {
+          'main': {
+            'template.hbs': '{{#if true}} yay {{/if}}',
+            'component.js': 'export default Ember.Component'
+          },
+          'foo-bar-baz': {
+            'template.hbs': '{{#if true}} yay {{/if}}',
+            'component.js': 'export default Ember.Component'
+          },
+          'other-derp': {
+            'component.js': 'export default Ember.Component'
+          },
+          'lolerskates-here': {
+            'template.hbs': '{{#if true}} lol {{/if}}'
           }
         }
       }
-    },
-    {
+    }, {
       components: {
         'this-addon-name.js': `export { default } from 'this-addon-name/src/ui/components/main/component';`,
         'foo-bar-baz.js': `export { default } from 'this-addon-name/src/ui/components/foo-bar-baz/component';`,

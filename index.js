@@ -27,7 +27,7 @@ module.exports = class ModuleUnificationReexporter extends Plugin {
     let outputPath = path.join(this.outputPath, relativeOutputPath);
 
     try {
-      fs.writeFileSync(outputPath, `export { default } from '${this.namespace}/${importPath}';`, 'utf-8');
+      fs.writeFileSync(outputPath, `export { default } from '${this.namespace}/src/${importPath}';`, 'utf-8');
     } catch (e) {
       if (e.code === 'ENOENT') {
         mkdirp.sync(path.dirname(outputPath));
@@ -43,11 +43,11 @@ module.exports = class ModuleUnificationReexporter extends Plugin {
 
     let knownFiles = walkSync(this.inputPaths[0], {
       directories: false,
-      globs: ['src/ui/components/*/{component,template}.*']
+      globs: ['ui/components/*/{component,template}.*']
     });
 
     knownFiles.forEach((file) => {
-      let componentRegex = /src\/ui\/components\/([\w-]+)\/(component|template)/;
+      let componentRegex = /ui\/components\/([\w-]+)\/(component|template)/;
       let componentMatch = file.match(componentRegex);
 
       if(componentMatch) {
