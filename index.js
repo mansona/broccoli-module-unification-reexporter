@@ -76,22 +76,23 @@ module.exports = class ModuleUnificationReexporter extends Plugin {
 
     let initializerFiles = walkSync(this.inputPaths[0], {
       directories: false,
-      globs: ['init/initializers/*.js']
+      globs: ['init/{initializers,instance-initializers}/*.js']
     });
 
     initializerFiles.forEach((file) => {
-      let initializerRegex = /init\/initializers\/([\w-]+)\.js/;
+      let initializerRegex = /init\/(initializers|instance-initializers)\/([\w-]+)\.js/;
       let initializerMatch = file.match(initializerRegex);
 
       if(initializerMatch) {
-        let initializerName = initializerMatch[1];
+        let initializerType = initializerMatch[1];
+        let initializerName = initializerMatch[2];
 
         let relativeOutputPath;
 
-        relativeOutputPath = `initializers/${initializerName}.js`;
+        relativeOutputPath = `${initializerType}/${initializerName}.js`;
 
         if (initializerName === 'main') {
-          relativeOutputPath = `initializers/${this.namespace}.js`;
+          relativeOutputPath = `${initializerType}/${this.namespace}.js`;
         }
 
         this._createReexport(file, relativeOutputPath);
