@@ -41,12 +41,12 @@ module.exports = class ModuleUnificationReexporter extends Plugin {
   build() {
     if (this._hasRan) { return; }
 
-    let knownFiles = walkSync(this.inputPaths[0], {
+    let componentFiles = walkSync(this.inputPaths[0], {
       directories: false,
       globs: ['ui/components/*/{component,template}.*']
     });
 
-    knownFiles.forEach((file) => {
+    componentFiles.forEach((file) => {
       let componentRegex = /ui\/components\/([\w-]+)\/(component|template)/;
       let componentMatch = file.match(componentRegex);
 
@@ -73,6 +73,32 @@ module.exports = class ModuleUnificationReexporter extends Plugin {
         this._createReexport(file, relativeOutputPath);
       }
     });
+
+    let initializerFiles = walkSync(this.inputPaths[0], {
+      directories: false,
+      globs: ['init/{initializers,instance-initializers}/*.js']
+    });
+
+    initializerFiles.forEach((file) => {
+      let initializerRegex = /init\/(initializers|instance-initializers)\/([\w-]+)\.js/;
+      let initializerMatch = file.match(initializerRegex);
+
+      if(initializerMatch) {
+        let initializerType = initializerMatch[1];
+        let initializerName = initializerMatch[2];
+
+        let relativeOutputPath;
+
+        relativeOutputPath = `${initializerType}/${initializerName}.js`;
+
+        if (initializerName === 'main') {
+          relativeOutputPath = `${initializerType}/${this.namespace}.js`;
+        }
+
+        this._createReexport(file, relativeOutputPath);
+      }
+
+    })
 
     this._hasRan = true;
   }
