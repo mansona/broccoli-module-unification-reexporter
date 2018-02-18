@@ -79,9 +79,25 @@ describe('broccoli-module-unification-reexporter', function() {
     }
   );
 
+  testExpectation(
+    'should handle initializers', {
+      init: {
+        initializers: {
+          'main.js': 'export default { initialize() { console.log("main one") } };',
+          'i18n.js': 'export default { initialize() { console.log("translations") } };'
+        }
+      }
+    }, {
+      initializers: {
+        'this-addon-name.js': `export { default } from 'this-addon-name/src/init/initializers/main';`,
+        'i18n.js': `export { default } from 'this-addon-name/src/init/initializers/i18n';`,
+      },
+    }
+  );
 
+  // from the RFC it seems like helpers won't be any different from components in this context
+  // https://github.com/dgeb/rfcs/blob/module-unification/text/0000-module-unification.md#generators-and-blueprints
   it('should handle helper reexports');
-  it('should handle initializers');
   it('should handle instance-initializers');
   it('should handle partials?');
   it('should allow custom mappings as overrides');
