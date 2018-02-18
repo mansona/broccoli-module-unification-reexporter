@@ -117,6 +117,8 @@ describe('broccoli-module-unification-reexporter', function() {
   it('should handle partials?');
   it('should allow custom mappings as overrides');
   it('should allow static mappings (no auto-detection)');
+
+  // I'm assuming this is already done because of the `expect(output.changes()).to.deep.equal({});` above on line 42?
   it('should run only on the first build');
   it('should allow `forceOnRebuilds`');
 });
